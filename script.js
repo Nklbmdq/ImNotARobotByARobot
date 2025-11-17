@@ -1,6 +1,6 @@
 const button = document.getElementById('runaway');
 
-// Place button randomly initially
+// Place button randomly at start
 function placeButtonRandom() {
   const btnWidth = button.offsetWidth;
   const btnHeight = button.offsetHeight;
@@ -11,8 +11,8 @@ function placeButtonRandom() {
 }
 placeButtonRandom();
 
-// Determine button color based on background brightness
-function setButtonColor(){
+// Set button color based on background brightness
+function setButtonColor() {
   const bg = window.getComputedStyle(document.body).backgroundColor;
   const rgb = bg.match(/\d+/g).map(Number);
   const brightness = (rgb[0]*299 + rgb[1]*587 + rgb[2]*114)/1000;
@@ -36,13 +36,14 @@ document.addEventListener('mousemove', e => {
   const dy = e.clientY - by;
   const distance = Math.sqrt(dx*dx + dy*dy);
 
-  if(distance < 150){ // trigger runaway
+  if(distance < 200){ // trigger runaway
     button.classList.add('legs');
-    // move opposite direction
-    let newX = rect.left - dx/2;
-    let newY = rect.top - dy/2;
 
-    // keep inside viewport
+    // Move opposite direction, plus random jitter
+    let newX = rect.left - dx/1.5 + (Math.random()*50-25);
+    let newY = rect.top - dy/1.5 + (Math.random()*50-25);
+
+    // Keep inside viewport
     newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
     newY = Math.max(0, Math.min(window.innerHeight - rect.height, newY));
 
