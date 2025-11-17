@@ -3,23 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>I'm Not A Robot — 50 Levels</title>
-  <link rel="stylesheet" href="recaptcha.css">
+  <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/png" href="icon.png">
 </head>
 <body>
 
 <h1>I'm Not A Robot — 50 Levels</h1>
-<p>Welcome! Click the checkbox to start:</p>
+<div id="game-container">
 
-<div class="recaptcha-box" onclick="fakeCheck()">
-  <input type="checkbox" id="fake-checkbox">
-  <div class="recaptcha-content">
-    <span class="checkbox-area"></span>
-    <span class="text">I'm not a robot</span>
-    <span class="logo">reCAPTCHA</span>
+  <div id="level-container">
+    <!-- Level content will be generated dynamically -->
   </div>
+
+  <div class="recaptcha-box" id="recaptcha">
+    <div class="checkbox" id="checkbox"></div>
+    <span class="text">I'm not a robot</span>
+    <div class="spinner" id="spinner"></div>
+  </div>
+
 </div>
 
-<script src="recaptcha.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
