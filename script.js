@@ -1,13 +1,19 @@
 const button = document.getElementById('runaway');
 
 // Place button randomly initially
-button.style.top = `${window.innerHeight/2}px`;
-button.style.left = `${window.innerWidth/2}px`;
+function placeButtonRandom() {
+  const btnWidth = button.offsetWidth;
+  const btnHeight = button.offsetHeight;
+  const x = Math.random() * (window.innerWidth - btnWidth);
+  const y = Math.random() * (window.innerHeight - btnHeight);
+  button.style.left = `${x}px`;
+  button.style.top = `${y}px`;
+}
+placeButtonRandom();
 
 // Determine button color based on background brightness
 function setButtonColor(){
   const bg = window.getComputedStyle(document.body).backgroundColor;
-  // convert rgb to brightness
   const rgb = bg.match(/\d+/g).map(Number);
   const brightness = (rgb[0]*299 + rgb[1]*587 + rgb[2]*114)/1000;
   if(brightness > 128){
@@ -19,20 +25,22 @@ function setButtonColor(){
   }
 }
 setButtonColor();
+window.addEventListener('resize', setButtonColor);
 
 // Runaway logic
 document.addEventListener('mousemove', e => {
   const rect = button.getBoundingClientRect();
-  const distanceX = e.clientX - (rect.left + rect.width/2);
-  const distanceY = e.clientY - (rect.top + rect.height/2);
-  const distance = Math.sqrt(distanceX*distanceX + distanceY*distanceY);
+  const bx = rect.left + rect.width/2;
+  const by = rect.top + rect.height/2;
+  const dx = e.clientX - bx;
+  const dy = e.clientY - by;
+  const distance = Math.sqrt(dx*dx + dy*dy);
 
-  // If cursor is close, move button away
-  if(distance < 150){
-    button.classList.add('legs'); // grow legs
-
-    let newX = rect.left - distanceX/2;
-    let newY = rect.top - distanceY/2;
+  if(distance < 150){ // trigger runaway
+    button.classList.add('legs');
+    // move opposite direction
+    let newX = rect.left - dx/2;
+    let newY = rect.top - dy/2;
 
     // keep inside viewport
     newX = Math.max(0, Math.min(window.innerWidth - rect.width, newX));
@@ -41,9 +49,6 @@ document.addEventListener('mousemove', e => {
     button.style.left = `${newX}px`;
     button.style.top = `${newY}px`;
   } else {
-    button.classList.remove('legs'); // shrink legs
+    button.classList.remove('legs');
   }
 });
-
-// Optional: resize window safety
-window.addEventListener('resize', setButtonColor);
