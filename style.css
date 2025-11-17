@@ -1,17 +1,19 @@
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
   height: 100vh;
-  background-color: white; /* change to black to test */
   overflow: hidden;
   display: flex;
-  align-items: center;
   justify-content: center;
-  flex-direction: column;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: white;
 }
 
 h1 {
-  margin-bottom: 50px;
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  text-align: center;
 }
 
 #runaway {
@@ -21,24 +23,35 @@ h1 {
   border-radius: 12px;
   border: 2px solid #444;
   cursor: pointer;
-  transition: transform 0.2s, background-color 0.3s, box-shadow 0.2s;
-  box-shadow: 0px 5px 15px rgba(0,0,0,0.3);
+  transition: background-color 0.2s;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* Mini legs decorative effect */
-#runaway::after {
-  content: '';
+/* Mini legs container */
+#runaway .leg {
   position: absolute;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 12px;
   background: inherit;
+  border-radius: 3px;
   bottom: -12px;
-  left: 10%;
-  border-radius: 50%;
-  box-shadow: 30px 0 0 0 inherit, 60px 0 0 0 inherit;
-  transform: scaleY(1);
-  transition: transform 0.2s;
 }
-#runaway.legs::after {
-  transform: scaleY(2);
+
+/* Left legs */
+#runaway .leg.left1 { left: 8%; }
+#runaway .leg.left2 { left: 25%; }
+
+/* Right legs */
+#runaway .leg.right1 { right: 25%; }
+#runaway .leg.right2 { right: 8%; }
+
+/* Walking animation */
+.legs .leg {
+  animation: walk 0.3s infinite alternate;
+}
+
+@keyframes walk {
+  0% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(4px) rotate(10deg); }
+  100% { transform: translateY(0) rotate(-10deg); }
 }
